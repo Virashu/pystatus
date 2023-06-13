@@ -11,11 +11,22 @@ from time import sleep, localtime, strftime
 # brightness_cmd = "light -G | cut -d'.' -f1"
 
 volume_cmd = "pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]{1,3}(?=%)' | head -1"
-mute_cmd = "pactl get-sink-mute @DEFAULT_SINK@ | greap -Po '(?<=Mute: )(yes|no)'"
+mute_cmd = "pactl get-sink-mute @DEFAULT_SINK@ | grep -Po '(?<=Mute: )(yes|no)'"
 charge_cmd = "cat /sys/class/power_supply/{}/capacity"
 state_cmd = "cat /sys/class/power_supply/{}/status"
 keymap_cmd = "setxkbmap -query | grep 'layout' | awk '$0~/ / {print $2}' | tr ',' '\n' | head -1"
 brightness_cmd = "xbacklight -get"
+
+
+def loadxres(resources) -> None:
+    r = get("xrdb -query")
+    for i in r.splitlines:
+        k, v = i.split()
+        resources[k] = v
+
+
+def text() -> str:
+    return ""
 
 
 def command(cmd: str) -> str:
@@ -25,6 +36,10 @@ def command(cmd: str) -> str:
 def get(cmd) -> str:
     out = subprocess.getoutput(cmd).rstrip('\n ').strip('\n ')
     return out
+
+
+def xres(name: str) -> str:
+    xres_list = get("xrdb -query")
 
 
 def get_bat_icon() -> str:

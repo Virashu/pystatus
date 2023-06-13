@@ -1,6 +1,7 @@
-from config import blocks, delay
+from config import blocks, delay, xrdb
 from functions import *
 from time import sleep
+from common import xresources
 
 
 # Keymap | Volume | Brightness | Battery | Time
@@ -21,6 +22,8 @@ def mainloop():
             sleep(delay)
     except KeyboardInterrupt:
         print("\n(*) Goodbye")
+    except NameError:
+        print("(-) Wrong configuration")
 
 
 mainloop()
