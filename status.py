@@ -1,24 +1,27 @@
-from config import blocks, delay, xrdb
+from config import blocks, delay
 from functions import *
 from time import sleep
-from common import xresources
 
 
 # Keymap | Volume | Brightness | Battery | Time
 def set_status(text: str) -> None:
     subprocess.run(["xsetroot", "-name", text])
 
-
+debug = False
 def mainloop():
     print("(+) Starting mainloop")
     try:
         while True:
             res = ""
             for block in blocks:
-                # print(*block[2])
-                res += block[1] % (block[0](*block[2]))
+                r = (block[0](*block[2]))
+                l = block[1] % r
+                res += l
             set_status(res)
-            # print(f"\"{res}\"")
+            if debug:
+                print("bruh")
+                with open("log.txt", "w") as f:
+                    f.write(res)
             sleep(delay)
     except KeyboardInterrupt:
         print("\n(*) Goodbye")

@@ -34,7 +34,8 @@ def command(cmd: str) -> str:
 
 
 def get(cmd) -> str:
-    out = subprocess.getoutput(cmd).rstrip('\n ').strip('\n ')
+    #out = subprocess.getoutput(cmd).rstrip('\n ').strip('\n ')
+    out = subprocess.getoutput(cmd).rstrip('\n').strip('\n')
     return out
 
 
@@ -51,7 +52,10 @@ def get_bat_icon() -> str:
 
 
 def get_vol_icon():
-    vol = int(get(volume_cmd))
+    got = get(volume_cmd)
+    if "Failed" in got:
+        return ''
+    vol = int(got)
     mute = get(mute_cmd)
     if mute == "Mute: yes":
         if vol == 0:

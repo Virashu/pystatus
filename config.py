@@ -13,28 +13,90 @@ delay = .25
 # whitespace   count of whitespace symbols
 # datetime     format of date and time
 
-# out = subprocess.getoutput("xrdb -query")
-# sel = re.findall(r"dwm.selbgcolor:\t(#[0-9qbcdef]{6})", out)[0]
-# print(sel)
+circles = (
+    # Tray triangle button #
+    (text,          "\x06\x07%s ",                                     []),
+   #(command,       "%s ",                                              ["bash ~/scripts/bluetooth.sh"]),
+    (command,       " %s ",                                             ["bash /home/virashu/scripts/music.sh"]),
+    # Keymap segment #
+    (command,        "\x01^b%s^",                                       ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^c%s^^d^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg1:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg1:\\t)(#[0-9abcdef]{6})'"]),
+    (keymap,        "%s",                                               []),
+   #(command,       " %s ",                                             ["bash /home/virashu/scripts/emoji.sh $(setxkbmap -query | grep \"layout\" | awk '$0~/ / {print $2}' | tr ',' '\\n' | head -1)"]), (command,        "^b%s^",                                           ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=\\*.bg1:\\t)(#[0-9abcdef]{6})'"]),
+    # Volume segment #
+    (command,       "\x02^d^^c%s^^d^",                                 ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]), (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]), (command,       " %s ",                                             ["~/Documents/volume.sh"]),
+    (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    # Battery segment #
+    (command,       "\x04^d^^c%s^^d^",                                 ["xrdb -query | grep -Po '(?<=\\*.bg3:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg3:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       " %s ",                                             ["~/Documents/battery.sh"]),
+    (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=\\*.bg3:\\t)(#[0-9abcdef]{6})'"]),
+    # Time segment #
+    (command,       "\x05^d^^c%s^",                                    ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^c%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
+    (datetime,      "%s",                                               ["%H:%M"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
+)
 
-#󰂯󰂱
-blocks = (
-    # command       str                              args
-    # (keymap,        "\x01^b#383838^ %s ",            []),
-    # (command,       "\x02^b#484848^  %s  ",          ["~/Documents/volume.sh"]),
-    # (command,       "\x04^b#585858^  %s  ",          ["~/Documents/battery.sh"]),
-    # # (datetime,      f"\x05^b{sel}^^c#282828^  %s  ^b#282828^",    ["%H:%M"]),
-    # (command,       "\x05^b%s",                      ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
-    # (datetime,      "^^c#282828^  %s  ^b#282828^",   ["%H:%M"]),
-    # # (whitespace,    "%s",       [20]),
-    (text,          "\x06\x07%s ",                                        []),
-    #(command,       "%s ",                                             ["bash ~/scripts/bluetooth.sh"]),
-    #(text,          "%s",                                             []),
-    (keymap,        "\x01^b%s^^c#3c3836^^d^^b#3c3836^ %s ",       []),
-    (command,       "\x02^b#3c3836^^c#504945^^d^^b#504945^  %s  ",     ["~/Documents/volume.sh"]),
-    (command,       "\x04^b#504945^^c#665c54^^d^^b#665c54^  %s  ",     ["~/Documents/battery.sh"]),
-    (command,       "\x05^b#665c54^^c%s^",                              ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
-    (command,       "^b%s^",                                           ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
-    (datetime,      "^c#282828^  %s  ^b#282828^",                       ["%H:%M"]),
+circles_mono = (
+    # Tray triangle button #
+    (text,          "\x06\x07%s ",                                     []),
+   #(command,       "%s ",                                              ["bash ~/scripts/bluetooth.sh"]),
+    (command,       "%s",                                             ["bash /home/virashu/scripts/music.sh"]),
+    # Keymap segment #
+    (command,        "\x01^b%s^",                                       ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^c%s^^d^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    (keymap,        "%s",                                               []),
+   #(command,       " %s ",                                             ["bash /home/virashu/scripts/emoji.sh $(setxkbmap -query | grep \"layout\" | awk '$0~/ / {print $2}' | tr ',' '\\n' | head -1)"]), (command,        "^b%s^",                                           ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    # Volume segment #
+    (command,       "\x02^d^^c%s^^d^",                                 ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]), (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]), (command,       " %s ",                                             ["~/Documents/volume.sh"]),
+    (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    # Battery segment #
+    (command,       "\x04^d^^c%s^^d^",                                 ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       " %s ",                                             ["~/Documents/battery.sh"]),
+    (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    # Time segment #
+    (command,       "\x05^d^^c%s^",                                    ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^c%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
+    (datetime,      "%s",                                               ["%H:%M"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
+    #(command,       ";%s",                                              ["bash /home/virashu/scripts/music.sh clean"]),
+)
+
+collapsed = (
+    (text,          "\x06\x07%s ",                                     []),
+   #(command,       "\x06'%s'\x07 ",                                    ["bash /home/virashu/scripts/trayicon.sh get"]),
+   #(command,       "%s ",                                              ["bash ~/scripts/bluetooth.sh"]),
+    (command,       "\x01^b%s^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^c%s^^d^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg1:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg1:\\t)(#[0-9abcdef]{6})'"]),
+    (keymap,        " %s ",                                             []),
+   #(command,       " %s ",                                             ["bash /home/virashu/scripts/emoji.sh $(setxkbmap -query | grep \"layout\" | awk '$0~/ / {print $2}' | tr ',' '\\n' | head -1)"]),
+    (command,       "\x02^b%s^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg1:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^c%s^^d^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "  %s  ",                                           ["~/Documents/volume.sh"]),
+    (command,       "\x04^b%s^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^c%s^^d^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg3:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg3:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "  %s  ",                                           ["~/Documents/battery.sh"]),
+    (command,       "\x05^b%s^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg3:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^c%s^",                                           ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^c%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
+    (datetime,      " %s ",                                             ["%H:%M"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^d^^c%s^^d^ ",                                    ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
 )
+
+blocks = circles_mono
+
