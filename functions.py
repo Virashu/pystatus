@@ -1,66 +1,39 @@
-import datetime
 import subprocess
-from time import sleep, localtime, strftime
+from time import localtime, strftime
+
+from constants import *
 
 
-# volume_cmd = "pactl get-sink-volume 0 | awk '$0~/%/ {print $5}' | tr -d '[%]'"
-# mute_cmd = "pactl get-sink-mute 0"
-# charge_cmd = "upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep percentage | grep -o \"[0-9]*\""
-# state_cmd = "upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep state | grep -o \"\\w*$\""
-# keymap_cmd = "setxkbmap -query | grep 'layout' | awk '$0~/ / {print $2}'"
-# brightness_cmd = "light -G | cut -d'.' -f1"
-
-volume_cmd = "pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]{1,3}(?=%)' | head -1"
-mute_cmd = "pactl get-sink-mute @DEFAULT_SINK@ | grep -Po '(?<=Mute: )(yes|no)'"
-charge_cmd = "cat /sys/class/power_supply/{}/capacity"
-state_cmd = "cat /sys/class/power_supply/{}/status"
-keymap_cmd = "setxkbmap -query | grep 'layout' | awk '$0~/ / {print $2}' | tr ',' '\n' | head -1"
-brightness_cmd = "xbacklight -get"
-
-
-def loadxres(resources) -> None:
-    r = get("xrdb -query")
-    for i in r.splitlines:
-        k, v = i.split()
-        resources[k] = v
-
-
-def text() -> str:
-    return ""
+def get(cmd: str) -> str:
+    out = subprocess.getoutput(cmd).rstrip("\n").strip("\n")
+    return out
 
 
 def command(cmd: str) -> str:
     return get(cmd)
 
 
-def get(cmd) -> str:
-    #out = subprocess.getoutput(cmd).rstrip('\n ').strip('\n ')
-    out = subprocess.getoutput(cmd).rstrip('\n').strip('\n')
-    return out
+def text() -> str:
+    return ""
 
 
-def xres(name: str) -> str:
-    xres_list = get("xrdb -query")
+def battery_icon() -> str:
+    charge = get_charge_level()
+    state = get_charge_state_raw()
+    return BATTERY_LEVELS[state][charge // 10]
 
 
-def get_bat_icon() -> str:
-    charge = int(get(charge_cmd))
-    state = get(state_cmd)
-    levels = {"charging": ['󰢟', '󰢜', '󰂆', '󰂇', '󰂈', '󰢝', '󰂉', '󰢞', '󰂊', '󰂋', '󰂅'],
-              "discharging": ['󱃍', '󰁺', '󰁻', '󰁼', '󰁽', '󰁾', '󰁿', '󰂀', '󰂁', '󰂂', '󰁹']}
-    return levels[state][charge // 10]
+def volume_icon():
+    res = volume()
+    if res == "":
+        return ""
 
+    vol = int(res)
+    mute = get_mute()
 
-def get_vol_icon():
-    got = get(volume_cmd)
-    if "Failed" in got:
-        return ''
-    vol = int(got)
-    mute = get(mute_cmd)
-    if mute == "Mute: yes":
-        if vol == 0:
-            return "󰸈"
-        return "󰖁"
+    if mute:
+        return "󰖁" if vol > 0 else "󰸈"
+
     if vol > 67:
         return "󰕾"
     if vol > 33:
@@ -73,8 +46,8 @@ def get_vol_icon():
 # Shortcuts
 
 
-def datetime(frm: str) -> str:
-    return strftime(frm, localtime())
+def datetime(format_: str) -> str:
+    return strftime(format_, localtime())
 
 
 def keymap() -> str:
@@ -82,12 +55,39 @@ def keymap() -> str:
 
 
 def volume() -> str:
-    return get(volume_cmd)
+    res = get(volume_cmd)
+    if "Failed" in res:
+        return ""
+    return res
 
 
-def mute() -> str:
+def get_mute_raw() -> str:
     return get(mute_cmd)
 
 
+def get_mute() -> bool:
+    return get_mute_raw() == "Mute: yes"
+
+
+def get_charge_level() -> int:
+    return int(get(charge_cmd))
+
+
+def get_charge_state_raw() -> str:
+    return get(state_cmd).lower()
+
+
 def whitespace(count: int) -> str:
-    return ' ' * count
+    return " " * count
+
+
+# ?
+def load_xresources(resources: dict[str, str]) -> None:
+    r = get("xrdb -query")
+    for i in r.splitlines():
+        k, v = i.split()
+        resources[k] = v
+
+
+def xres(name: str) -> str:
+    return get("xrdb -query")

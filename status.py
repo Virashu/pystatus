@@ -1,32 +1,34 @@
-from config import blocks, delay
-from functions import *
+"""Main file"""
+
+import subprocess
 from time import sleep
+
+from config import blocks, delay
 
 
 # Keymap | Volume | Brightness | Battery | Time
 def set_status(text: str) -> None:
-    subprocess.run(["xsetroot", "-name", text])
+    subprocess.run(["xsetroot", "-name", text], check=False)
 
-debug = False
-def mainloop():
+
+DEBUG = False
+
+
+if __name__ == "__main__":
     print("(+) Starting mainloop")
     try:
         while True:
             res = ""
             for block in blocks:
-                r = (block[0](*block[2]))
+                r = block[0](*block[2])
                 l = block[1] % r
                 res += l
             set_status(res)
-            if debug:
-                print("bruh")
-                with open("log.txt", "w") as f:
+            if DEBUG:
+                with open("log.txt", "w", encoding="utf-8") as f:
                     f.write(res)
             sleep(delay)
     except KeyboardInterrupt:
         print("\n(*) Goodbye")
     except NameError:
         print("(-) Wrong configuration")
-
-
-mainloop()
