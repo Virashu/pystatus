@@ -46,7 +46,7 @@ circles_mono = (
     # Tray triangle button #
     (text,          "\x06\x07%s ",                                     []),
    #(command,       "%s ",                                              ["bash ~/scripts/bluetooth.sh"]),
-    (command,       "%s",                                             ["bash /home/virashu/scripts/music.sh"]),
+    (command,       "%s",                                               ["bash /home/virashu/scripts/music.sh"]),
     # Keymap segment #
     (command,        "\x01^b%s^",                                       ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^c%s^^d^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
@@ -55,12 +55,14 @@ circles_mono = (
    #(command,       " %s ",                                             ["bash /home/virashu/scripts/emoji.sh $(setxkbmap -query | grep \"layout\" | awk '$0~/ / {print $2}' | tr ',' '\\n' | head -1)"]), (command,        "^b%s^",                                           ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
     # Volume segment #
-    (command,       "\x02^d^^c%s^^d^",                                 ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]), (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]), (command,       " %s ",                                             ["~/Documents/volume.sh"]),
+    (command,       "\x02^d^^c%s^^d^",                                 ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    (get_vol_icon,  " %s ",                                             []),
     (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
     # Battery segment #
     (command,       "\x04^d^^c%s^^d^",                                 ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
-    (command,       " %s ",                                             ["~/Documents/battery.sh"]),
+    (get_bat_icon,  " %s ",                                             []),
     (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
     # Time segment #
     (command,       "\x05^d^^c%s^",                                    ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
@@ -69,7 +71,7 @@ circles_mono = (
     (datetime,      "%s",                                               ["%H:%M"]),
     (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
-    #(command,       ";%s",                                              ["bash /home/virashu/scripts/music.sh clean"]),
+   #(command,       ";%s",                                              ["bash /home/virashu/scripts/music.sh clean"]),
 )
 
 collapsed = (

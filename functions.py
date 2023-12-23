@@ -12,15 +12,15 @@ from time import sleep, localtime, strftime
 
 volume_cmd = "pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]{1,3}(?=%)' | head -1"
 mute_cmd = "pactl get-sink-mute @DEFAULT_SINK@ | grep -Po '(?<=Mute: )(yes|no)'"
-charge_cmd = "cat /sys/class/power_supply/{}/capacity"
-state_cmd = "cat /sys/class/power_supply/{}/status"
+charge_cmd = "cat /sys/class/power_supply/BAT1/capacity"
+state_cmd = "cat /sys/class/power_supply/BAT1/status"
 keymap_cmd = "setxkbmap -query | grep 'layout' | awk '$0~/ / {print $2}' | tr ',' '\n' | head -1"
 brightness_cmd = "xbacklight -get"
 
 
 def loadxres(resources) -> None:
     r = get("xrdb -query")
-    for i in r.splitlines:
+    for i in r.splitlines():
         k, v = i.split()
         resources[k] = v
 
@@ -34,7 +34,6 @@ def command(cmd: str) -> str:
 
 
 def get(cmd) -> str:
-    #out = subprocess.getoutput(cmd).rstrip('\n ').strip('\n ')
     out = subprocess.getoutput(cmd).rstrip('\n').strip('\n')
     return out
 
@@ -48,7 +47,7 @@ def get_bat_icon() -> str:
     state = get(state_cmd)
     levels = {"charging": ['󰢟', '󰢜', '󰂆', '󰂇', '󰂈', '󰢝', '󰂉', '󰢞', '󰂊', '󰂋', '󰂅'],
               "discharging": ['󱃍', '󰁺', '󰁻', '󰁼', '󰁽', '󰁾', '󰁿', '󰂀', '󰂁', '󰂂', '󰁹']}
-    return levels[state][charge // 10]
+    return levels[state.lower()][charge // 10]
 
 
 def get_vol_icon():
