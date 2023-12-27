@@ -1,12 +1,11 @@
 import subprocess
-from time import localtime, strftime
-
 from constants import *
 
 
 def get(cmd: str) -> str:
+    """Get command output"""
     try:
-        out = (
+        out: str = (
             subprocess.check_output(cmd, shell=True, text=True, encoding="utf-8")
             .rstrip("\n")
             .strip("\n")
@@ -19,22 +18,48 @@ def get(cmd: str) -> str:
     return out
 
 
-def command(cmd: str) -> str:
-    return get(cmd)
+def get_command(command: str) -> str:
+    """Get command output"""
+    return get(command)
 
 
-def text() -> str:
-    return ""
+def get_keymap() -> str:
+    """Keyboard layout"""
+    return get(keymap_cmd)
 
 
-def battery_icon() -> str:
-    charge = get_charge_level()
-    state = get_charge_state_raw()
-    return BATTERY_LEVELS[state][charge // 10]
+def get_volume() -> str:
+    """Volume level"""
+    res = get(volume_cmd)
+    if "Failed" in res:
+        return ""
+    return res
 
 
-def volume_icon():
-    res = volume()
+def get_mute() -> bool:
+    """Mute state"""
+    return "yes" in get(mute_cmd)
+
+
+def get_charge_level() -> int:
+    """Charge level"""
+    raw = get(charge_cmd)
+    if raw == "":
+        return 0
+    return int(raw)
+
+
+def get_charge_state() -> str:
+    """Charge state
+
+    ('charging', 'discharging', 'full')
+    """
+    return get(state_cmd).lower()
+
+
+def get_volume_icon() -> str:
+    """Volume icon"""
+    res = get_volume()
     if res == "":
         return ""
 
@@ -53,54 +78,8 @@ def volume_icon():
     return "󰝟"
 
 
-# Shortcuts
-
-
-def datetime(format_: str) -> str:
-    return strftime(format_, localtime())
-
-
-def keymap() -> str:
-    return get(keymap_cmd)
-
-
-def volume() -> str:
-    res = get(volume_cmd)
-    if "Failed" in res:
-        return ""
-    return res
-
-
-def get_mute_raw() -> str:
-    return get(mute_cmd)
-
-
-def get_mute() -> bool:
-    return get_mute_raw() == "Mute: yes"
-
-
-def get_charge_level() -> int:
-    raw = get(charge_cmd)
-    if raw == "":
-        return 0
-    return int(raw)
-
-
-def get_charge_state_raw() -> str:
-    return get(state_cmd).lower()
-
-
-def whitespace(count: int) -> str:
-    return " " * count
-
-
-# ?
-def load_xresources(resources: dict[str, str]) -> None:
-    r = get("xrdb -query")
-    for i in r.splitlines():
-        k, v = i.split()
-        resources[k] = v
-
-
-def xres(name: str) -> str:
-    return get("xrdb -query")
+def get_battery_icon() -> str:
+    """Battery icon"""
+    charge = get_charge_level()
+    state = get_charge_state()
+    return BATTERY_LEVELS[state][charge // 10]

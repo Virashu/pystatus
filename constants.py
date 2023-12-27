@@ -1,12 +1,4 @@
-"constants"
-
-
-# volume_cmd = "pactl get-sink-volume 0 | awk '$0~/%/ {print $5}' | tr -d '[%]'"
-# mute_cmd = "pactl get-sink-mute 0"
-# charge_cmd = "upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep percentage | grep -o \"[0-9]*\""
-# state_cmd = "upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep state | grep -o \"\\w*$\""
-# keymap_cmd = "setxkbmap -query | grep 'layout' | awk '$0~/ / {print $2}'"
-# brightness_cmd = "light -G | cut -d'.' -f1"
+"Constants"
 
 
 _battery_charging = ["󰢟", "󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"]
@@ -27,4 +19,5 @@ state_cmd = "cat /sys/class/power_supply/BAT1/status"
 keymap_cmd = (
     "setxkbmap -query | grep 'layout' | awk '$0~/ / {print $2}' | tr ',' '\n' | head -1"
 )
+# brightness_cmd = "light -G | cut -d'.' -f1"
 brightness_cmd = "xbacklight -get"
