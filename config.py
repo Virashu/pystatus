@@ -23,8 +23,7 @@ circles: StatusLine = (
     (command,       " %s ",                                             ["bash /home/virashu/scripts/music.sh"]),
 
     # Keymap segment #
-    (command,        "\x01^b%s^",                                       ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
-    (command,       "^c%s^^d^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg1:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "\x01^d^^c%s^^d^",                                 ["xrdb -query | grep -Po '(?<=\\*.bg1:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg1:\\t)(#[0-9abcdef]{6})'"]),
     (keymap,        "%s",                                               []),
     (command,        "^b%s^",                                           ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
@@ -33,13 +32,13 @@ circles: StatusLine = (
     # Volume segment #
     (command,       "\x02^d^^c%s^^d^",                                 ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
-    (command,       " %s ",                                             ["~/Documents/volume.sh"]),
+    (volume_icon,   " %s ",                                             []),
     (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
     
     # Battery segment #
     (command,       "\x04^d^^c%s^^d^",                                 ["xrdb -query | grep -Po '(?<=\\*.bg3:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg3:\\t)(#[0-9abcdef]{6})'"]),
-    (command,       " %s ",                                             ["~/Documents/battery.sh"]),
+    (battery_icon,  " %s ",                                             []),
     (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=\\*.bg3:\\t)(#[0-9abcdef]{6})'"]),
     
     # Time segment #
@@ -57,8 +56,7 @@ circles_mono: StatusLine = (
     (command,       "%s",                                               ["bash /home/virashu/scripts/music.sh"]),
 
     # Keymap segment #
-    (command,        "\x01^b%s^",                                       ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
-    (command,       "^c%s^^d^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "\x01^d^^c%s^^d^",                                 ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
     (keymap,        "%s",                                               []),
     (command,        "^b%s^",                                           ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
@@ -67,7 +65,7 @@ circles_mono: StatusLine = (
     # Volume segment #
     (command,       "\x02^d^^c%s^^d^",                                 ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
-    (volume_icon,  " %s ",                                             []),
+    (volume_icon,  " %s ",                                              []),
     (command,       "^d^^c%s^^d^\x07 ",                                ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
     
     # Battery segment #
@@ -88,20 +86,18 @@ circles_mono: StatusLine = (
 
 collapsed: StatusLine = (
     (text,          "\x06\x07%s ",                                     []),
-   #(command,       "\x06'%s'\x07 ",                                    ["bash /home/virashu/scripts/trayicon.sh get"]),
-   #(command,       "%s ",                                              ["bash ~/scripts/bluetooth.sh"]),
-    (command,       "\x01^b%s^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg0:\\t)(#[0-9abcdef]{6})'"]),
-    (command,       "^c%s^^d^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg1:\\t)(#[0-9abcdef]{6})'"]),
+    (command,       "%s",                                               ["bash /home/virashu/scripts/music.sh"]),
+    (command,       "\x01^d^^c%s^^d^",                                 ["xrdb -query | grep -Po '(?<=\\*.bg1:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg1:\\t)(#[0-9abcdef]{6})'"]),
     (keymap,        " %s ",                                             []),
     (command,       "\x02^b%s^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg1:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^c%s^^d^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
-    (command,       "  %s  ",                                           ["~/Documents/volume.sh"]),
+    (volume_icon,   "  %s  ",                                           []),
     (command,       "\x04^b%s^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg2:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^c%s^^d^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg3:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=\\*.bg3:\\t)(#[0-9abcdef]{6})'"]),
-    (command,       "  %s  ",                                           ["~/Documents/battery.sh"]),
+    (battery_icon,  "  %s  ",                                           []),
     (command,       "\x05^b%s^",                                        ["xrdb -query | grep -Po '(?<=\\*.bg3:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^c%s^",                                           ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
     (command,       "^b%s^",                                            ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
@@ -111,6 +107,6 @@ collapsed: StatusLine = (
     (command,       "^d^^c%s^^d^ ",                                    ["xrdb -query | grep -Po '(?<=dwm.selbgcolor:\\t)(#[0-9abcdef]{6})'"]),
 )
 
-blocks: StatusLine = circles_mono
+blocks: StatusLine = collapsed
 
 # fmt: on
