@@ -5,7 +5,17 @@ from constants import *
 
 
 def get(cmd: str) -> str:
-    out = subprocess.getoutput(cmd).rstrip("\n").strip("\n")
+    try:
+        out = (
+            subprocess.check_output(cmd, shell=True, text=True, encoding="utf-8")
+            .rstrip("\n")
+            .strip("\n")
+        )
+    except UnicodeDecodeError:
+        out = ""
+    except UnicodeError:
+        out = ""
+
     return out
 
 
@@ -70,7 +80,10 @@ def get_mute() -> bool:
 
 
 def get_charge_level() -> int:
-    return int(get(charge_cmd))
+    raw = get(charge_cmd)
+    if raw == "":
+        return 0
+    return int(raw)
 
 
 def get_charge_state_raw() -> str:
