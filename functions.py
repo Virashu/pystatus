@@ -76,7 +76,7 @@ def get_mute_raw() -> str:
 
 
 def get_mute() -> bool:
-    return get_mute_raw() == "Mute: yes"
+    return get_mute_raw() == "yes"
 
 
 def get_charge_level() -> int:
