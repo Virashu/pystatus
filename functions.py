@@ -5,16 +5,11 @@ from constants import *
 
 
 def get(cmd: str) -> str:
-    try:
-        out = (
-            subprocess.check_output(cmd, shell=True, text=True, encoding="utf-8")
-            .rstrip("\n")
-            .strip("\n")
-        )
-    except UnicodeDecodeError:
-        out = ""
-    except UnicodeError:
-        out = ""
+    out = (
+        subprocess.check_output(cmd, shell=True, text=True, encoding="utf-8")
+        .rstrip("\n")
+        .strip("\n")
+    )
 
     return out
 
@@ -30,6 +25,8 @@ def text() -> str:
 def battery_icon() -> str:
     charge = get_charge_level()
     state = get_charge_state_raw()
+    if state in ("not charging", "full"):
+        state = "discharging"
     return BATTERY_LEVELS[state][charge // 10]
 
 
